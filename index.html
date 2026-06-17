@@ -283,11 +283,20 @@
       }
       for (let i = 0; i < 20; i++) {
         let combo;
+        let attempts = 0;
         do {
           combo = shuffle([...selected]).slice(0, 6).sort((a, b) => a - b);
-        } while (isAllOddOrEven(combo.slice(0, 3)));
+          attempts++;
+        } while ((isAllOddOrEven(combo.slice(0, 3)) || hasThreeConsecutive(combo)) && attempts < 1000);
         renderCombo(combo);
       }
+    }
+
+    function hasThreeConsecutive(arr) {
+      for (let i = 0; i <= arr.length - 3; i++) {
+        if (arr[i+1] === arr[i] + 1 && arr[i+2] === arr[i] + 2) return true;
+      }
+      return false;
     }
 
     function shuffle(arr) {
