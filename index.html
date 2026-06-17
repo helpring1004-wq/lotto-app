@@ -328,7 +328,9 @@
 
     /* Service Worker */
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.unregister());
+      });
     }
 
     /* Install prompt */
