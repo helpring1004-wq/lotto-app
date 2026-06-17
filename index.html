@@ -281,14 +281,20 @@
         alert('최소 6개 이상의 번호를 선택해 주세요.');
         return;
       }
-      for (let i = 0; i < 20; i++) {
+      const seen = new Set();
+      let count = 0;
+      while (count < 20) {
         let combo;
         let attempts = 0;
         do {
           combo = shuffle([...selected]).slice(0, 6).sort((a, b) => a - b);
           attempts++;
         } while ((isAllOddOrEven(combo.slice(0, 3)) || hasThreeConsecutive(combo)) && attempts < 1000);
+        const key = combo.join(',');
+        if (seen.has(key)) break; // no more unique combos
+        seen.add(key);
         renderCombo(combo);
+        count++;
       }
     }
 
