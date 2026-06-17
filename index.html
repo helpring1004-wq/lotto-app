@@ -71,14 +71,12 @@
 
   /* Selected state */
   .ball.selected {
-    background: #1a1a1a !important;
-    color: #fff !important;
-    border-color: #000;
-    border-radius: 12px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.1);
+    border: 4px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   }
   .ball.selected::after {
-    display: none;
+    opacity: 0.6;
   }
 
   .actions {
