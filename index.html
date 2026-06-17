@@ -36,6 +36,7 @@
   .board {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
     max-width: 480px;
     width: 100%;
     background: #f4f6f8;
@@ -47,17 +48,26 @@
     justify-content: center;
     font-weight: 700;
     font-size: 1rem;
+    border-radius: 50%;
     cursor: pointer;
     user-select: none;
-    transition: background .15s ease;
-    position: relative;
     border: 1px solid #1a1a1a;
-    margin: 0 -1px -1px 0;
+    box-shadow: none;
+    transition: transform .1s ease, border .2s ease;
+    position: relative;
   }
   .ball::after {
-    display: none;
+    content: '';
+    position: absolute;
+    top: 8%;
+    left: 16%;
+    width: 35%;
+    height: 22%;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    pointer-events: none;
   }
-  .ball:active { opacity: 0.85; }
+  .ball:active { transform: scale(0.95); }
 
   /* Range colors */
   .range-1  { background: linear-gradient(145deg, #ffe082, #ffca28); color: #3e2723; }
