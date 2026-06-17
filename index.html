@@ -146,6 +146,50 @@
   }
   .btn-reset { background: #fff; color: #333; border: 1px solid #ddd; }
   .btn-reset:hover { background: #f0f0f0; }
+  .btn-generate { background: #1a1a1a; color: #fff; }
+  .btn-generate:hover { background: #333; }
+
+  .combo-list {
+    margin-top: 16px;
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .combo-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.95rem;
+  }
+  .combo-balls {
+    display: flex;
+    gap: 6px;
+  }
+  .combo-ball {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .combo-del {
+    background: transparent;
+    border: none;
+    color: #999;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .combo-del:hover { color: #e53935; }
 
   .info {
     margin-top: 22px;
@@ -172,7 +216,10 @@
 
   <div class="actions">
     <button class="btn-reset" onclick="resetAll()">전체 해제</button>
+    <button class="btn-generate" onclick="generateCombo()">조합</button>
   </div>
+
+  <div class="combo-list" id="comboList"></div>
 
   <div class="install-bar" id="installBar">
     <span>📱 홈 화면에 추가하면 앱처럼 사용할 수 있어요</span>
@@ -225,6 +272,47 @@
     function resetAll() {
       document.querySelectorAll('.ball.selected').forEach(b => b.classList.remove('selected'));
       updateLabel();
+    }
+
+    function generateCombo() {
+      const selected = Array.from(document.querySelectorAll('.ball.selected'))
+        .map(b => parseInt(b.textContent, 10));
+      if (selected.length < 6) {
+        alert('최소 6개 이상의 번호를 선택해 주세요.');
+        return;
+      }
+      let combo;
+      do {
+        combo = shuffle([...selected]).slice(0, 6).sort((a, b) => a - b);
+      } while (isAllOddOrEven(combo.slice(0, 3)));
+      renderCombo(combo);
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function isAllOddOrEven(arr) {
+      const odds = arr.filter(n => n % 2 === 1).length;
+      return odds === 0 || odds === arr.length;
+    }
+
+    function renderCombo(combo) {
+      const list = document.getElementById('comboList');
+      const item = document.createElement('div');
+      item.className = 'combo-item';
+      const ballsHtml = combo.map(n =>
+        `<div class="combo-ball ${rangeClass(n)}">${n}</div>`
+      ).join('');
+      item.innerHTML = `
+        <div class="combo-balls">${ballsHtml}</div>
+        <button class="combo-del" onclick="this.parentElement.remove()">&times;</button>
+      `;
+      list.appendChild(item);
     }
 
     /* Service Worker */
