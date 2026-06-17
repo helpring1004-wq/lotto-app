@@ -2,7 +2,13 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#1a1a1a"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Lotto Pick"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icon.svg">
 <title>로또 번호 선택기 - Lotto Pick</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -79,10 +85,48 @@
     opacity: 0.6;
   }
 
+  /* Install banner */
+  .install-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.92rem;
+    transform: translateY(120%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    z-index: 1000;
+  }
+  .install-bar.show { transform: translateY(0); }
+  .install-bar span { font-weight: 500; }
+  .install-bar button {
+    background: #ffca28;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .install-bar .close-btn {
+    background: transparent;
+    color: #fff;
+    padding: 8px;
+    font-size: 1.1rem;
+  }
+
   .actions {
     margin-top: 28px;
     display: flex;
     gap: 12px;
+    padding-bottom: 60px;
   }
   .actions button {
     border: none;
@@ -124,7 +168,16 @@
     <button class="btn-reset" onclick="resetAll()">전체 해제</button>
   </div>
 
+  <div class="install-bar" id="installBar">
+    <span>📱 홈 화면에 추가하면 앱처럼 사용할 수 있어요</span>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="installBtn">설치</button>
+      <button class="close-btn" id="closeInstall">&times;</button>
+    </div>
+  </div>
+
   <script>
+    /* Lotto board */
     const board = document.getElementById('board');
     const label = document.getElementById('selected-nums');
 
@@ -158,6 +211,35 @@
       document.querySelectorAll('.ball.selected').forEach(b => b.classList.remove('selected'));
       updateLabel();
     }
+
+    /* Service Worker */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+    /* Install prompt */
+    let deferredPrompt;
+    const installBar = document.getElementById('installBar');
+    const installBtn = document.getElementById('installBtn');
+    const closeInstall = document.getElementById('closeInstall');
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBar.classList.add('show');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') installBar.classList.remove('show');
+      deferredPrompt = null;
+    });
+
+    closeInstall.addEventListener('click', () => {
+      installBar.classList.remove('show');
+    });
   </script>
 </body>
 </html>
