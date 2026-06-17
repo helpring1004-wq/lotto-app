@@ -281,11 +281,13 @@
         alert('최소 6개 이상의 번호를 선택해 주세요.');
         return;
       }
-      let combo;
-      do {
-        combo = shuffle([...selected]).slice(0, 6).sort((a, b) => a - b);
-      } while (isAllOddOrEven(combo.slice(0, 3)));
-      renderCombo(combo);
+      for (let i = 0; i < 20; i++) {
+        let combo;
+        do {
+          combo = shuffle([...selected]).slice(0, 6).sort((a, b) => a - b);
+        } while (isAllOddOrEven(combo.slice(0, 3)));
+        renderCombo(combo);
+      }
     }
 
     function shuffle(arr) {
