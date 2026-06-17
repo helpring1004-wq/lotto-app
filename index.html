@@ -38,9 +38,9 @@
     grid-template-columns: repeat(7, 1fr);
     max-width: 480px;
     width: 100%;
-    border: 2px solid #1a1a1a;
+    border: 1px solid #1a1a1a;
     background: #1a1a1a;
-    gap: 2px;
+    gap: 1px;
   }
   .cell {
     aspect-ratio: 1 / 1;
@@ -48,7 +48,7 @@
     align-items: center;
     justify-content: center;
     background: #f4f6f8;
-    padding: 6px;
+    padding: 4px;
   }
   .ball {
     width: 100%;
@@ -206,6 +206,12 @@
         updateLabel();
       });
       cell.appendChild(ball);
+      board.appendChild(cell);
+    }
+    // Fill remaining cells to make a complete 7x7 grid
+    for (let i = 46; i <= 49; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
       board.appendChild(cell);
     }
 
