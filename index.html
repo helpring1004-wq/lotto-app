@@ -293,9 +293,6 @@
       const btn = document.getElementById('winnerModeBtn');
       btn.classList.toggle('active', winnerMode);
       btn.classList.toggle('winner-mode', winnerMode);
-      document.querySelectorAll('.ball').forEach(ball => {
-        ball.style.pointerEvents = 'auto';
-      });
     }
 
     document.querySelectorAll('.ball').forEach(ball => {
