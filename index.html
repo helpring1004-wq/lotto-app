@@ -90,9 +90,8 @@
     outline: 3px solid #000;
     outline-offset: 2px;
   }
-  .ball.winner-highlight {
-    outline: 3px solid #e53935;
-    outline-offset: 2px;
+  .cell.winner-highlight {
+    background: #e53935;
   }
 
   /* Install banner */
@@ -278,6 +277,7 @@
 
     function resetAll() {
       document.querySelectorAll('.ball.selected').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('.cell.winner-highlight').forEach(c => c.classList.remove('winner-highlight'));
       updateLabel();
     }
 
@@ -292,7 +292,8 @@
     document.querySelectorAll('.ball').forEach(ball => {
       ball.addEventListener('click', () => {
         if (winnerMode) {
-          ball.classList.add('winner-highlight');
+          const cell = ball.parentElement;
+          cell.classList.toggle('winner-highlight');
         }
       });
     });
