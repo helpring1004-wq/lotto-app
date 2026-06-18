@@ -289,13 +289,22 @@
         do {
           combo = shuffle([...selected]).slice(0, 6).sort((a, b) => a - b);
           attempts++;
-        } while ((isAllOddOrEven(combo.slice(0, 3)) || hasThreeConsecutive(combo)) && attempts < 1000);
+        } while (
+          (isAllOddOrEven(combo.slice(0, 3)) ||
+           hasThreeConsecutive(combo) ||
+           ![8, 9, 10].includes(acValue(combo))) &&
+          attempts < 1000
+        );
         const key = combo.join(',');
-        if (seen.has(key)) break; // no more unique combos
+        if (seen.has(key)) break;
         seen.add(key);
         renderCombo(combo);
         count++;
       }
+    }
+
+    function acValue(arr) {
+      return arr.reduce((sum, n) => sum + (n % 10), 0);
     }
 
     function hasThreeConsecutive(arr) {
