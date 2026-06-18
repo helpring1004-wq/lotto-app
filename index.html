@@ -256,6 +256,10 @@
       ball.className = 'ball ' + rangeClass(i);
       ball.textContent = i;
       ball.addEventListener('click', () => {
+        if (winnerMode) {
+          cell.classList.toggle('winner-highlight');
+          return;
+        }
         ball.classList.toggle('selected');
         updateLabel();
       });
@@ -290,17 +294,6 @@
       btn.classList.toggle('active', winnerMode);
       btn.classList.toggle('winner-mode', winnerMode);
     }
-
-    document.querySelectorAll('.ball').forEach(ball => {
-      ball.addEventListener('click', () => {
-        if (winnerMode) {
-          ball.parentElement.classList.toggle('winner-highlight');
-          return;
-        }
-        ball.classList.toggle('selected');
-        updateLabel();
-      });
-    });
 
     function generateCombo() {
       const selected = Array.from(document.querySelectorAll('.ball.selected'))
