@@ -255,14 +255,14 @@
       const ball = document.createElement('div');
       ball.className = 'ball ' + rangeClass(i);
       ball.textContent = i;
-      ball.addEventListener('click', () => {
+      ball.onclick = () => {
         if (winnerMode) {
           cell.classList.toggle('winner-highlight');
           return;
         }
         ball.classList.toggle('selected');
         updateLabel();
-      });
+      };
       cell.appendChild(ball);
       board.appendChild(cell);
     }
