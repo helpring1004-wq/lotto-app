@@ -289,7 +289,6 @@
       const btn = document.getElementById('winnerModeBtn');
       btn.classList.toggle('active', winnerMode);
       btn.classList.toggle('winner-mode', winnerMode);
-      document.querySelectorAll('.cell.winner-highlight').forEach(c => c.classList.remove('winner-highlight'));
       document.querySelectorAll('.ball').forEach(ball => {
         ball.style.pointerEvents = 'auto';
       });
