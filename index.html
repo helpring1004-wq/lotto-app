@@ -153,6 +153,7 @@
   .btn-generate:hover { background: #333; }
   .btn-winner { background: #e53935; color: #fff; }
   .btn-winner.active { background: #b71c1c; }
+  .btn-winner.winner-mode { color: #111; }
 
   .combo-list {
     margin-top: 16px;
@@ -287,6 +288,7 @@
       winnerMode = !winnerMode;
       const btn = document.getElementById('winnerModeBtn');
       btn.classList.toggle('active', winnerMode);
+      btn.classList.toggle('winner-mode', winnerMode);
       document.querySelectorAll('.cell.winner-highlight').forEach(c => c.classList.remove('winner-highlight'));
       document.querySelectorAll('.ball').forEach(ball => {
         ball.style.pointerEvents = 'auto';
