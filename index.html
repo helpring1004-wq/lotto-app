@@ -90,6 +90,10 @@
     outline: 3px solid #000;
     outline-offset: 2px;
   }
+  .ball.winner-highlight {
+    outline: 3px solid #e53935;
+    outline-offset: 2px;
+  }
 
   /* Install banner */
   .install-bar {
@@ -148,6 +152,8 @@
   .btn-reset:hover { background: #f0f0f0; }
   .btn-generate { background: #1a1a1a; color: #fff; }
   .btn-generate:hover { background: #333; }
+  .btn-winner { background: #e53935; color: #fff; }
+  .btn-winner.active { background: #b71c1c; }
 
   .combo-list {
     margin-top: 16px;
@@ -217,6 +223,7 @@
   <div class="actions">
     <button class="btn-reset" onclick="resetAll()">전체 해제</button>
     <button class="btn-generate" onclick="generateCombo()">조합</button>
+    <button class="btn-winner" id="winnerModeBtn" onclick="toggleWinnerMode()">당첨번호주변수</button>
   </div>
 
   <div class="combo-list" id="comboList"></div>
@@ -273,6 +280,22 @@
       document.querySelectorAll('.ball.selected').forEach(b => b.classList.remove('selected'));
       updateLabel();
     }
+
+    let winnerMode = false;
+
+    function toggleWinnerMode() {
+      winnerMode = !winnerMode;
+      const btn = document.getElementById('winnerModeBtn');
+      btn.classList.toggle('active', winnerMode);
+    }
+
+    document.querySelectorAll('.ball').forEach(ball => {
+      ball.addEventListener('click', () => {
+        if (winnerMode) {
+          ball.classList.add('winner-highlight');
+        }
+      });
+    });
 
     function generateCombo() {
       const selected = Array.from(document.querySelectorAll('.ball.selected'))
