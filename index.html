@@ -287,14 +287,17 @@
       winnerMode = !winnerMode;
       const btn = document.getElementById('winnerModeBtn');
       btn.classList.toggle('active', winnerMode);
+      document.querySelectorAll('.cell.winner-highlight').forEach(c => c.classList.remove('winner-highlight'));
     }
 
     document.querySelectorAll('.ball').forEach(ball => {
       ball.addEventListener('click', () => {
         if (winnerMode) {
-          const cell = ball.parentElement;
-          cell.classList.toggle('winner-highlight');
+          ball.parentElement.classList.toggle('winner-highlight');
+          return;
         }
+        ball.classList.toggle('selected');
+        updateLabel();
       });
     });
 
